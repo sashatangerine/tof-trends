@@ -1,0 +1,30 @@
+name: TOF Trends Scan
+on:
+  schedule:
+      - cron: '30 0 * * 2'  # Tuesday 8:30 AM MYT (UTC 0:30)
+          - cron: '30 0 * * 4'  # Thursday 8:30 AM MYT (UTC 0:30)
+            workflow_dispatch:
+
+            jobs:
+              scan:
+                  runs-on: ubuntu-latest
+                      timeout-minutes: 30
+                          env:
+                                APIFY_API_KEY: ${{ secrets.APIFY_API_KEY }}
+                                      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+                                          steps:
+                                                - uses: actions/checkout@v4
+                                                      - uses: actions/setup-python@v4
+                                                              with:
+                                                                        python-version: '3.11'
+                                                                              - name: Install dependencies
+                                                                                      run: pip install requests --break-system-packages
+                                                                                            - name: Run TOF trends scan
+                                                                                                    run: python scripts/tof_trends_scan.py
+                                                                                                          - name: Upload results
+                                                                                                                  uses: actions/upload-artifact@v3
+                                                                                                                          if: always()
+                                                                                                                                  with:
+                                                                                                                                            name: tof-scan-results
+                                                                                                                                                      path: tof_scan_output.txt
+                                                                                                                                                                retention-days: 30

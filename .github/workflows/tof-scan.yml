@@ -1,9 +1,9 @@
 name: TOF Trends Scan
 on:
   schedule:
-      - cron: '30 0 * * 2'  # Tuesday 8:30 AM MYT (UTC 0:30)
-          - cron: '30 0 * * 4'  # Thursday 8:30 AM MYT (UTC 0:30)
-            workflow_dispatch:
+        - cron: '30 0 * * 2'  # Tuesday 8:30 AM MYT (UTC 0:30)
+            - cron: '30 0 * * 4'  # Thursday 8:30 AM MYT (UTC 0:30)
+              workflow_dispatch:
 
             jobs:
               scan:
